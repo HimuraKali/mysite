@@ -13,5 +13,5 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 export const prisma = new PrismaClient({
-  ...(adapter && { adapter }),
+  ...(adapter ? { adapter } : { datasourceUrl: process.env.DATABASE_URL }),
 })
