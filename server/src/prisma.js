@@ -12,14 +12,10 @@ if (process.env.NODE_ENV !== 'production') {
   adapter = new PrismaBetterSqlite3({ url: dbPath })
 }
 
-export const prisma = new PrismaClient({
-  ...(adapter
-    ? { adapter }
-    : {
-        datasources: {
-          db: {
-            url: process.env.DATABASE_URL,
-          },
-        },
-      }),
-})
+// In Prisma 7, the database URL is automatically picked up from the environment 
+// (DATABASE_URL) based on the prisma.config.ts or schema.prisma settings.
+// We should not pass 'datasources' or 'datasourceUrl' to the constructor 
+// unless we are using a specific adapter or Accelerate.
+export const prisma = new PrismaClient(
+  adapter ? { adapter } : {}
+)
